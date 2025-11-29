@@ -116,7 +116,7 @@ p {
 /* --- Hero Section --- */
 .hero {
     height: 100vh;
-    background: linear-gradient(rgba(0, 31, 63, 0.8), rgba(0, 31, 63, 0.8)), url('assets/hero_banner_1764221024458.png') no-repeat center center/cover;
+    background: linear-gradient(rgba(0, 31, 63, 0.8), rgba(0, 31, 63, 0.8)), url('assets/hero_banner.png') no-repeat center center/cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
