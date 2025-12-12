@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
+    // ------------------------------------------------------------
     // Mobile Navigation Toggle
+    // ------------------------------------------------------------
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
 
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
-        
-        // Animate links
+
         const links = document.querySelectorAll('.nav-links li');
         links.forEach((link, index) => {
             if (link.style.animation) {
@@ -16,19 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.style.animation = `fadeInUp 0.5s ease forwards ${index / 7 + 0.3}s`;
             }
         });
-        
-        // Hamburger animation toggle
+
         hamburger.classList.toggle('toggle');
     });
 
     // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
-        if (!hamburger.contains(e.target) && !navLinks.contains(e.target) && navLinks.classList.contains('active')) {
+        if (!hamburger.contains(e.target) &&
+            !navLinks.contains(e.target) &&
+            navLinks.classList.contains('active')) {
             navLinks.classList.remove('active');
         }
     });
 
-    // Smooth Scroll for Anchor Links (if any)
+    // ------------------------------------------------------------
+    // Smooth Scroll
+    // ------------------------------------------------------------
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -38,7 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Scroll Animations using Intersection Observer
+    // ------------------------------------------------------------
+    // Scroll Animations
+    // ------------------------------------------------------------
     const observerOptions = {
         threshold: 0.1,
         rootMargin: "0px 0px -50px 0px"
@@ -55,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     const animatedElements = document.querySelectorAll('.card, .skill-category, .project-card, .section-title, .about-text, .about-img');
-    
+
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -63,24 +69,40 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // Contact Form Handling
+    // ------------------------------------------------------------
+    // Contact Form (EmailJS Integration)
+    // ------------------------------------------------------------
     const contactForm = document.getElementById('contactForm');
+
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            // Simulate form submission
+
             const btn = contactForm.querySelector('button');
             const originalText = btn.innerText;
-            
+
             btn.innerText = 'Sending...';
             btn.disabled = true;
 
-            setTimeout(() => {
-                alert('Thank you for your message! I will get back to you soon.');
-                contactForm.reset();
-                btn.innerText = originalText;
-                btn.disabled = false;
-            }, 1500);
+            const params = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                message: document.getElementById("message").value
+            };
+
+            emailjs.send("service_8lb1gtt", "template_qogzo0a", params)
+                .then(() => {
+                    alert("Your message has been sent successfully.");
+                    contactForm.reset();
+                })
+                .catch((err) => {
+                    console.error("EmailJS Error:", err);
+                    alert("Failed to send message. Please try again later.");
+                })
+                .finally(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                });
         });
     }
 });
