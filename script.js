@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 message: document.getElementById("message").value
             };
 
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
+            emailjs.send("service_8lb1gtt", "template_qogzo0a", params)
                 .then(() => {
                     alert("Your message has been sent successfully.");
                     contactForm.reset();
